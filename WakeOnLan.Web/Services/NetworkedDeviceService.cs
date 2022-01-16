@@ -43,7 +43,8 @@ namespace WakeOnLan.Web.Services
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Select(x => x.Split(' '))
                 .Where(x => x.Length >= 5)
-                .Where(x => x[4] == device.MacAddress)
+                .Where(x => x[4].ToLower() == device.MacAddress.ToLower())
+                .Where(x => x[0].Length <= 15)
                 .Select(x => x[0])
                 .SingleOrDefault();
 
