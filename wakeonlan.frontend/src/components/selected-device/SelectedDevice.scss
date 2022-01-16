@@ -1,0 +1,40 @@
+.selected-device {
+    padding: 16px 8px 16px 8px;
+    display: flex;
+
+    .selected-device-name {
+        display: none;
+    }
+    .info-item {
+        .info-item-value {
+            color: rgba(150, 150, 150, 1);
+        }
+    }
+
+    .selected-device-status-value {
+        &.status-null {
+            color: rgba(150, 150, 150, 1);
+        }
+        &.status-true {
+            color: rgba(0, 150, 0, 1);
+        }
+        &.status-false {
+            color: rgba(150, 0, 0, 1);
+        }
+    }
+
+    .selected-device-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        width: 100%;
+
+        .activate {
+            font-size: 24px;
+            &:hover {
+                cursor: pointer;
+                color: rgba(0, 255, 0, 1);
+            }
+        }
+    }
+}

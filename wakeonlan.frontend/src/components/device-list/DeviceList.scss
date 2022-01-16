@@ -1,0 +1,53 @@
+.device-list {
+    .device-list-header {
+        padding: 8px;
+        font-size: 24px;
+        margin-bottom: 16px;
+
+        .device-titlebar {
+            display: flex;
+            justify-content: space-between;
+            .device-titlebar-title {
+
+            }
+            .device-titlebar-button {
+                padding-left: 20px;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .device {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px;
+
+        .device-name {
+
+        }
+
+        &.selected {
+            cursor: pointer;
+            &:hover {
+                // background-color: rgba(200, 200, 200, 0.1);
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+            // background-color: rgba(200, 200, 200, 0.1);
+        }
+
+        .device-actions {
+            color: #aaaaaa;
+
+            .device-delete {
+                &:hover {
+                    cursor: pointer;
+                    color: #ff0000;
+                }
+            }
+        }
+    }
+}

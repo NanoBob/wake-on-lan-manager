@@ -1,0 +1,55 @@
+.app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100vw;
+    min-height: 100vh;
+    background-color: #222222;
+    color: white;
+
+
+    .sidebar {
+        border-right: 1px solid white;
+    }
+
+    .content {
+
+    }
+
+    .center {
+        width: 600px;
+        max-width: 100vw;
+    }
+}
+
+button {
+    background-color: rgba(255, 255, 255, 0);
+    outline: none;
+    border: none;
+    padding: 4px 8px 4px 8px;
+    border-radius: 4px;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &.primary {
+        color: black;
+        border: 4px solid rgba(0, 100, 0, 1);
+
+        &:hover {
+            background-color: rgba(0, 100, 0, 1);
+            border: 4px solid rgba(0, 150, 0, 1);
+        }
+    }
+    &.error {
+        color: black;
+        border: 4px solid rgba(100, 0, 0, 1);
+
+        &:hover {
+            background-color: rgba(100, 0, 0, 1);
+            border: 4px solid rgba(150, 0, 0, 1);
+        }
+    }
+}
