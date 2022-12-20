@@ -73,7 +73,7 @@ namespace WakeOnLan.Web.Controllers
             if (!this.passwordService.Matches(dto.Password, device.PasswordHash))
                 return Unauthorized();
 
-            await this.networkedDeviceService.Wake(device);
+            await this.networkedDeviceService.WakeAsync(device);
 
             return Ok();
         }
@@ -82,7 +82,15 @@ namespace WakeOnLan.Web.Controllers
         public async Task<ActionResult<bool>> IsDeviceOn(int id)
         {
             var device = await this.context.Devices.SingleAsync(x => x.Id == id);
-            return Ok(await this.networkedDeviceService.IsDeviceOn(device));
+
+            var ip = await this.networkedDeviceService.GetDeviceIpAsync(device);
+            if (ip != null)
+            {
+                device.LastKnownIp = ip;
+                await this.context.SaveChangesAsync();
+            }
+
+            return Ok(await this.networkedDeviceService.IsDeviceOnAsync(device));
         }
     }
 }

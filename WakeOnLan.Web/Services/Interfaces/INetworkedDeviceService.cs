@@ -4,7 +4,9 @@ namespace WakeOnLan.Web.Services.Interfaces
 {
     public interface INetworkedDeviceService
     {
-        Task Wake(Device device);
-        Task<bool> IsDeviceOn(Device device);
+        Task WakeAsync(Device device);
+        Task<bool> IsDeviceOnAsync(Device device);
+        Task<string?> GetDeviceIpAsync(Device device);
+        Task<bool> IsIpReachableAsync(string ip);
     }
 }

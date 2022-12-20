@@ -7,7 +7,7 @@ namespace WakeOnLan.Web.Services
 {
     public class NetworkedDeviceService : INetworkedDeviceService
     {
-        public Task Wake(Device device)
+        public Task WakeAsync(Device device)
         {
             var startInfo = new ProcessStartInfo("wakeonlan", device.MacAddress)
             {
@@ -20,8 +20,8 @@ namespace WakeOnLan.Web.Services
             return (process?.WaitForExitAsync() ?? Task.CompletedTask);
         }
 
-        public async Task<bool> IsDeviceOn(Device device)
-        {
+        public async Task<string?> GetDeviceIpAsync(Device device)
+        {            
             var startInfo = new ProcessStartInfo("ip", $"neighbor")
             {
                 RedirectStandardOutput = true,
@@ -29,11 +29,19 @@ namespace WakeOnLan.Web.Services
                 CreateNoWindow = true
             };
 
-            var process = Process.Start(startInfo);
-            if (process == null)
-                throw new Exception("Unable to grab IP");
+            Process process;
+            try
+            {
+                process = Process.Start(startInfo);
 
-            process.WaitForExit();
+                if (process == null)
+                    throw new Exception("Unable to grab IP");
+            } catch (Exception)
+            {
+                return null;
+            }
+
+            await process.WaitForExitAsync();
 
             var neighbours = process.StandardOutput.ReadToEnd();
             Console.WriteLine(neighbours);
@@ -49,14 +57,25 @@ namespace WakeOnLan.Web.Services
                 .SingleOrDefault();
 
             if (ip == null)
-                return false;
+                return null;
 
-            Console.WriteLine(ip);
+            return ip;
+        }
+
+        public async Task<bool> IsIpReachableAsync(string ip)
+        {
             var ping = new Ping();
             var result = await ping.SendPingAsync(ip.Trim());
 
             return result.Status == IPStatus.Success;
         }
 
+        public Task<bool> IsDeviceOnAsync(Device device)
+        {
+            if (string.IsNullOrEmpty(device.LastKnownIp))
+                return Task.FromResult(false);
+
+            return IsIpReachableAsync(device.LastKnownIp);
+        }
     }
 }
